@@ -1,0 +1,156 @@
+swagger: '2.0'
+info:
+  version: '2017-08-10T09:02:30Z'
+  title: ProductWebService
+host: localhost:8080
+basePath: /example
+schemes:
+  - https
+paths:
+  /products:
+    get:
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 200 response
+          schema:
+            $ref: '#/definitions/Products'
+    post:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: NewProduct
+          required: true
+          schema:
+            $ref: '#/definitions/NewProduct'
+      responses:
+        '200':
+          description: 200 response
+          schema:
+            $ref: '#/definitions/Product'
+        '422':
+          description: 422 response
+          schema:
+            $ref: '#/definitions/Error'
+  '/products/{id}':
+    get:
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 200 response
+          schema:
+            $ref: '#/definitions/Product'
+        '404':
+          description: 404 response
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 200 response
+          schema:
+            $ref: '#/definitions/Empty'
+        '204':
+          description: 204 response
+          schema:
+            $ref: '#/definitions/Empty'
+        '404':
+          description: 404 response
+          schema:
+            $ref: '#/definitions/Error'
+    patch:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: NewProduct
+          required: true
+          schema:
+            $ref: '#/definitions/NewProduct'
+      responses:
+        '200':
+          description: 200 response
+          schema:
+            $ref: '#/definitions/Product'
+        '404':
+          description: 404 response
+          schema:
+            $ref: '#/definitions/Error'
+        '422':
+          description: 422 response
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Empty:
+    type: object
+  Products:
+    type: object
+    properties:
+      products:
+        type: array
+        items:
+          type: object
+          properties:
+            created:
+              type: string
+            description:
+              type: string
+            id:
+              type: string
+            name:
+              type: string
+            updated:
+              type: string
+  Error:
+    type: object
+    properties:
+      error:
+        type: object
+        properties:
+          message:
+            type: string
+          type:
+            type: string
+  Product:
+    type: object
+    properties:
+      created:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      updated:
+        type: string
+  NewProduct:
+    type: object
+    properties:
+      description:
+        type: string
+      name:
+        type: string
